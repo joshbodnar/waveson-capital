@@ -66,28 +66,29 @@
         if (e.code !== "Enter") {
             return;
         }
+
         showSearching = true;
 
-        let myHeaders = new Headers();
-        myHeaders.append("Accept", "application/json");
+        let response = await axios.get("https://banks.data.fdic.gov/api/institutions", {
+            params: {
+                fields: "CITY,STNAME,NAME,ZIP,CERT",
+                filters: "STNAME:" + usState + " AND ACTIVE:1",
+                search: "NAME:" + institution,
+                format: "json",
+                limit: "1000",
+                sort: "NAME,STNAME,CITY,CERT",
+            },
+            headers: {
+                "Accept": "application/json"
+            }
+        })
 
-        const query = `
-        https://banks.data.fdic.gov/api/institutions?filters=ACTIVE:1 AND STNAME:\\"${usState}\\"&limit=10000&search=NAME:${institution}&fields=CITY,STNAME,NAME,ZIP,CERT&format=json&sort=NAME,STNAME,CITY,CERT
-        `;
-
-        try {
-            const instance = axios.create({'headers': {'Accept': 'application/json'}});
-            const response = await instance.get(query);
-            returnData = response;
+        if (response.status < 300) {
+            returnData = response
             showResults = true;
             showSearching = false;
-            console.log(response);
-        } catch (error) {
-            console.error(error);
+        } else {
+            throw new Error("Could not retrieve the data.");
         }
     }
 </script>
-
-<style>
-
-</style>
