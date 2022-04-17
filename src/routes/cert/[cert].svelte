@@ -1,89 +1,158 @@
-<h1>Searching Cert: {cert}</h1>
-
+<h1>Reports for Cert: {cert}</h1>
+<hr>
 {#await financials}
     <p>...loading</p>
 {:then res}
-    <table class="table table-striped table-responsive">
-        <thead>
-        <tr>
-<!--            <th>ID</th>-->
-            <th>REPDTE</th>
-<!--            <th>REPYEAR</th>-->
-            <th>NAME</th>
-            <th>CITY</th>
-            <th>FLDOFF</th>
-            <th>ZIP</th>
-            <th>STNAME</th>
-            <th>ACTIVE</th>
-            <th>CERT</th>
-            <th>ASSET</th>
-            <th>CHBAL</th>
-<!--            <th>CHBALNI</th>-->
-<!--            <th>CHFRB</th>-->
-<!--            <th>DEP</th>-->
-<!--            <th>EQ</th>-->
-<!--            <th>FREPO</th>-->
-<!--            <th>ICHBAL</th>-->
-<!--            <th>ICHBALQ</th>-->
-<!--            <th>IFREPO</th>-->
-<!--            <th>IFREPOQ</th>-->
-<!--            <th>ILNDOM</th>-->
-<!--            <th>ILNDOMQ</th>-->
-<!--            <th>ILS</th>-->
-<!--            <th>ILSQ</th>-->
-<!--            <th>ISC</th>-->
-<!--            <th>ISCQ</th>-->
-<!--            <th>LNCI</th>-->
-<!--            <th>LNLSGR</th>-->
-<!--            <th>LNLSNET</th>-->
-<!--            <th>NETINC</th>-->
-<!--            <th>NETINCQ</th>-->
-<!--            <th>SC</th>-->
-        </tr>
-        </thead>
-        <tbody>
-        {#each res.data as d}
-            <tr>
-<!--                <td>{d.data.ID}</td>-->
-                <td>
-                    <button class="btn btn-xs btn-primary">{FormatDate(d.data.REPDTE)}</button>
-                </td>
-<!--                <td>{d.data.REPYEAR}</td>-->
-                <td>{d.data.NAME}</td>
-                <td>{d.data.CITY}</td>
-                <td>{d.data.FLDOFF}</td>
-                <td>{d.data.ZIP}</td>
-                <td>{d.data.STNAME}</td>
-                <td>{d.data.ACTIVE}</td>
-                <td>{d.data.CERT}</td>
-                <td>{FormatCash(d.data.ASSET)} M</td>
-                <td>{FormatCash(d.data.CHBAL)} M</td>
-<!--                <td>{d.data.CHBALNI}</td>-->
-<!--                <td>{d.data.CHFRB}</td>-->
-<!--                <td>{d.data.DEP}</td>-->
-<!--                <td>{d.data.EQ}</td>-->
-<!--                <td>{d.data.FREPO}</td>-->
-<!--                <td>{d.data.ICHBAL}</td>-->
-<!--                <td>{d.data.ICHBALQ}</td>-->
-<!--                <td>{d.data.IFREPO}</td>-->
-<!--                <td>{d.data.IFREPOQ}</td>-->
-<!--                <td>{d.data.ILNDOM}</td>-->
-<!--                <td>{d.data.ILNDOMQ}</td>-->
-<!--                <td>{d.data.ILS}</td>-->
-<!--                <td>{d.data.ILSQ}</td>-->
-<!--                <td>{d.data.ISC}</td>-->
-<!--                <td>{d.data.ISCQ}</td>-->
-<!--                <td>{d.data.LNCI}</td>-->
-<!--                <td>{d.data.LNLSGR}</td>-->
-<!--                <td>{d.data.LNLSNET}</td>-->
-<!--                <td>{d.data.NETINC}</td>-->
-<!--                <td>{d.data.NETINCQ}</td>-->
-<!--                <td>{d.data.SC}</td>-->
-            </tr>
-        {/each}
-        </tbody>
-    </table>
+    <div class="row mb-5">
+        <div class="col-sm-4">
+            <label for="report_date" class="form-label">Select Report Date</label>
+            <select name="report_date" id="report_date" class="form-select" bind:value={selectedIndex}>
+                {#each res.data as d, k}
+                    <option value="{k}">{FormatDate(d.data.REPDTE)}</option>
+                {/each}
+            </select>
+        </div>
+    </div>
 {/await}
+
+{#if selected != null }
+    <h2>Raw Data</h2>
+    <table class="table table-responsive table-sm">
+        <tr>
+            <th>ID</th>
+            <td>{selected.ID}</td>
+        </tr>
+        <tr>
+            <th>REPDTE</th>
+            <td>{FormatDate(selected.REPDTE)}</td>
+        </tr>
+        <tr>
+            <th>REPYEAR</th>
+            <td>{selected.REPYEAR}</td>
+        </tr>
+        <tr>
+            <th>NAME</th>
+            <td>{selected.NAME}</td>
+        </tr>
+        <tr>
+            <th>CITY</th>
+            <td>{selected.CITY}</td>
+        </tr>
+        <tr>
+            <th>FLDOFF</th>
+            <td>{selected.FLDOFF}</td>
+        </tr>
+        <tr>
+            <th>ZIP</th>
+            <td>{selected.ZIP}</td>
+        </tr>
+        <tr>
+            <th>STNAME</th>
+            <td>{selected.STNAME}</td>
+        </tr>
+        <tr>
+            <th>ACTIVE</th>
+            <td>{selected.ACTIVE}</td>
+        </tr>
+        <tr>
+            <th>CERT</th>
+            <td>{selected.CERT}</td>
+        </tr>
+        <tr>
+            <th>ASSET</th>
+            <td>{FormatCash(selected.ASSET)} M</td>
+        </tr>
+        <tr>
+            <th>CHBAL</th>
+            <td>{FormatCash(selected.CHBAL)} M</td>
+        </tr>
+        <tr>
+            <th>CHBALNI</th>
+            <td>{selected.CHBALNI}</td>
+        </tr>
+        <tr>
+            <th>CHFRB</th>
+            <td>{selected.CHFRB}</td>
+        </tr>
+        <tr>
+            <th>DEP</th>
+            <td>{selected.DEP}</td>
+        </tr>
+        <tr>
+            <th>EQ</th>
+            <td>{selected.EQ}</td>
+        </tr>
+        <tr>
+            <th>FREPO</th>
+            <td>{selected.FREPO}</td>
+        </tr>
+        <tr>
+            <th>ICHBAL</th>
+            <td>{selected.ICHBAL}</td>
+        </tr>
+        <tr>
+            <th>ICHBALQ</th>
+            <td>{selected.ICHBALQ}</td>
+        </tr>
+        <tr>
+            <th>IFREPO</th>
+            <td>{selected.IFREPO}</td>
+        </tr>
+        <tr>
+            <th>IFREPOQ</th>
+            <td>{selected.IFREPOQ}</td>
+        </tr>
+        <tr>
+            <th>ILNDOM</th>
+            <td>{selected.ILNDOM}</td>
+        </tr>
+        <tr>
+            <th>ILNDOMQ</th>
+            <td>{selected.ILNDOMQ}</td>
+        </tr>
+        <tr>
+            <th>ILS</th>
+            <td>{selected.ILS}</td>
+        </tr>
+        <tr>
+            <th>ILSQ</th>
+            <td>{selected.ILSQ}</td>
+        </tr>
+        <tr>
+            <th>ISC</th>
+            <td>{selected.ISC}</td>
+        </tr>
+        <tr>
+            <th>ISCQ</th>
+            <td>{selected.ISCQ}</td>
+        </tr>
+        <tr>
+            <th>LNCI</th>
+            <td>{selected.LNCI}</td>
+        </tr>
+        <tr>
+            <th>LNLSGR</th>
+            <td>{selected.LNLSGR}</td>
+        </tr>
+        <tr>
+            <th>LNLSNET</th>
+            <td>{selected.LNLSNET}</td>
+        </tr>
+        <tr>
+            <th>NETINC</th>
+            <td>{selected.NETINC}</td>
+        </tr>
+        <tr>
+            <th>NETINCQ</th>
+            <td>{selected.NETINCQ}</td>
+        </tr>
+        <tr>
+            <th>SC</th>
+            <td>{selected.SC}</td>
+
+        </tr>
+    </table>
+{/if}
 
 <script context="module">
     export function load({params}) {
@@ -99,6 +168,11 @@
     export let cert
     import axios from 'axios'
 
+    let selectedIndex = 0;
+    $: selected = data ? data.data[selectedIndex].data : null;
+    let data = null;
+    let financials = GetFinancials();
+
     function FormatDate(date) {
         return date.slice(4, 6) + "/" +
             date.slice(6, 8) + "/" +
@@ -113,8 +187,8 @@
     async function GetFinancials() {
         let response = await axios.get("https://banks.data.fdic.gov/api/financials", {
             params: {
-                fields: "ID,NAME,CITY,FLDOFF,ZIP,STNAME,ACTIVE,CERT,ASSET,CHBAL,CHBALNI,CHFRB,"+
-                    "DEP,EQ,FREPO,ICHBAL,ICHBALQ,IFREPO,IFREPOQ,ILNDOM,ILNDOMQ,ILS,ILSQ,ISC,ISCQ,"+
+                fields: "ID,NAME,CITY,FLDOFF,ZIP,STNAME,ACTIVE,CERT,ASSET,CHBAL,CHBALNI,CHFRB," +
+                    "DEP,EQ,FREPO,ICHBAL,ICHBALQ,IFREPO,IFREPOQ,ILNDOM,ILNDOMQ,ILS,ILSQ,ISC,ISCQ," +
                     "LNCI,LNLSGR,LNLSNET,NETINC,NETINCQ,SC,REPDTE,REPYEAR",
                 filters: "CERT:" + cert + " AND ACTIVE:1",
                 format: "json",
@@ -128,12 +202,12 @@
         })
 
         if (response.status < 300) {
-            console.log(response.data)
+            selected = response.data.data[selectedIndex].data
+            data = response.data;
             return response.data;
         } else {
             throw new Error("Could not retrieve the data.");
         }
     }
 
-    let financials = GetFinancials()
 </script>
