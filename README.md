@@ -1,3 +1,9 @@
+# Project Info
+
+Bank data is derived from the FDIC BankFind Suite API. 
+- Home Page: https://banks.data.fdic.gov/bankfind-suite/
+- API Docs: https://banks.data.fdic.gov/docs
+
 # create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
